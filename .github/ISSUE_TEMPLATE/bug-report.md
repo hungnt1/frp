@@ -11,10 +11,10 @@ assignees: ''
 
 <!-- ⚠️⚠️ Incomplete reports will be marked as invalid, and closed, with few exceptions ⚠️⚠️ -->
 <!-- in addition, please use search well so that the same solution can be found in the feedback, we will close it directly -->
-<!-- for convenience of differentiation, use FRPS or FRPC to refer to the FRP server or client -->
+<!-- for convenience of differentiation, use FRPS or cxtunnelc to refer to the FRP server or client -->
 
 **[REQUIRED] hat version of frp are you using** 
-<!-- Use ./frpc -v or ./frps -v -->
+<!-- Use ./cxtunnelc -v or ./frps -v -->
 Version:
 
 **[REQUIRED] What operating system and processor architecture are you using**

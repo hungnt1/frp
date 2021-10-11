@@ -41,7 +41,7 @@ func init() {
 
 var httpsCmd = &cobra.Command{
 	Use:   "https",
-	Short: "Run frpc with a single https proxy",
+	Short: "Run cxtunnelc with a single https proxy",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		clientCfg, err := parseClientCommonCfgFromCmd()
 		if err != nil {

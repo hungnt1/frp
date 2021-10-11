@@ -224,8 +224,8 @@ func (ctl *Control) RegisterWorkConn(conn net.Conn) error {
 	}
 }
 
-// When frps get one user connection, we get one work connection from the pool and return it.
-// If no workConn available in the pool, send message to frpc to get one or more
+// When cxtunnel get one user connection, we get one work connection from the pool and return it.
+// If no workConn available in the pool, send message to cxtunnelc to get one or more
 // and wait until it is available.
 // return an error if wait timeout
 func (ctl *Control) GetWorkConn() (workConn net.Conn, err error) {
@@ -247,7 +247,7 @@ func (ctl *Control) GetWorkConn() (workConn net.Conn, err error) {
 		}
 		xl.Debug("get work connection from pool")
 	default:
-		// no work connections available in the poll, send message to frpc to get more
+		// no work connections available in the poll, send message to cxtunnelc to get more
 		if err = errors.PanicToError(func() {
 			ctl.sendCh <- &msg.ReqWorkConn{}
 		}); err != nil {

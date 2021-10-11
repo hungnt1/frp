@@ -90,7 +90,7 @@ type ClientCommonConf struct {
 	// clients. If this value is not "", proxy names will automatically be
 	// changed to "{user}.{proxy_name}". By default, this value is "".
 	User string `ini:"user" json:"user"`
-	// DNSServer specifies a DNS server address for FRPC to use. If this value
+	// DNSServer specifies a DNS server address for cxtunnelc to use. If this value
 	// is "", the default DNS will be used. By default, this value is "".
 	DNSServer string `ini:"dns_server" json:"dns_server"`
 	// LoginFailExit controls whether or not the client should exit after a

@@ -37,7 +37,7 @@ var verifyCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		fmt.Printf("frpc: the configuration file %s syntax is ok\n", cfgFile)
+		fmt.Printf("cxtunnelc: the configuration file %s syntax is ok\n", cfgFile)
 		return nil
 	},
 }

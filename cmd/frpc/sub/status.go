@@ -45,7 +45,7 @@ var statusCmd = &cobra.Command{
 		}
 
 		if err = status(cfg); err != nil {
-			fmt.Printf("frpc get status error: %v\n", err)
+			fmt.Printf("cxtunnelc get status error: %v\n", err)
 			os.Exit(1)
 		}
 		return nil

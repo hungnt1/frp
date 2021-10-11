@@ -137,7 +137,7 @@ Create new proxy
 
 #### Ping
 
-Heartbeat from frpc
+Heartbeat from cxtunnelc
 
 ```
 {
@@ -155,7 +155,7 @@ Heartbeat from frpc
 
 #### NewWorkConn
 
-New work connection received from frpc (RPC sent after `run_id` is matched with an existing frp connection)
+New work connection received from cxtunnelc (RPC sent after `run_id` is matched with an existing frp connection)
 
 ```
 {
@@ -225,7 +225,7 @@ Metadata entries under each proxy configuration will be sent in `NewProxy` op on
 Metadata entries start with `meta_`. This is an example of metadata entries in `[common]` and under the proxy named `[ssh]`:
 
 ```
-# frpc.ini
+# cxtunnelc.ini
 [common]
 server_addr = 127.0.0.1
 server_port = 7000

@@ -39,7 +39,7 @@ var _ = Describe("[Feature: Cmd]", func() {
 			framework.ExpectNoError(err)
 			framework.ExpectTrue(!strings.Contains(output, ConfigValidStr), "output: %s", output)
 		})
-		It("frpc valid", func() {
+		It("cxtunnelc valid", func() {
 			path := f.GenerateConfigFile(`
 			[common]
 			server_addr = 0.0.0.0
@@ -49,7 +49,7 @@ var _ = Describe("[Feature: Cmd]", func() {
 			framework.ExpectNoError(err)
 			framework.ExpectTrue(strings.Contains(output, ConfigValidStr), "output: %s", output)
 		})
-		It("frpc invalid", func() {
+		It("cxtunnelc invalid", func() {
 			path := f.GenerateConfigFile(`
 			[common]
 			server_addr = 0.0.0.0

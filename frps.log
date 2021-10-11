@@ -1,0 +1,50 @@
+2021/09/30 02:35:17 [I] [root.go:200] cxtunnel uses config file: conf/frps_full.ini
+2021/09/30 02:35:17 [I] [service.go:150] plugin [port-manager] has been registered
+2021/09/30 02:35:17 [I] [service.go:150] plugin [user-manager] has been registered
+2021/09/30 02:35:17 [I] [service.go:192] cxtunnel tcp listen on 0.0.0.0:7000
+2021/09/30 02:35:17 [I] [service.go:202] cxtunnel kcp listen on udp 0.0.0.0:7000
+2021/09/30 02:36:17 [I] [root.go:200] cxtunnel uses config file: conf/frps_full.ini
+2021/09/30 02:36:17 [I] [service.go:150] plugin [port-manager] has been registered
+2021/09/30 02:36:17 [I] [service.go:150] plugin [user-manager] has been registered
+2021/09/30 02:36:17 [I] [service.go:192] cxtunnel tcp listen on 0.0.0.0:7000
+2021/09/30 02:36:17 [I] [service.go:202] cxtunnel kcp listen on udp 0.0.0.0:7000
+2021/09/30 02:37:25 [I] [root.go:200] cxtunnel uses config file: conf/frps_full.ini
+2021/09/30 02:37:25 [I] [service.go:150] plugin [port-manager] has been registered
+2021/09/30 02:37:25 [I] [service.go:150] plugin [user-manager] has been registered
+2021/09/30 02:37:25 [I] [service.go:192] cxtunnel tcp listen on 0.0.0.0:7000
+2021/09/30 02:37:25 [I] [service.go:202] cxtunnel kcp listen on udp 0.0.0.0:7000
+2021/09/30 02:37:25 [I] [service.go:276] nat hole udp service listen on 0.0.0.0:7001
+2021/09/30 02:37:25 [I] [service.go:291] Dashboard listen on 0.0.0.0:7500
+2021/09/30 02:37:25 [I] [root.go:209] cxtunnel started successfully
+2021/09/30 02:38:33 [I] [root.go:200] cxtunnel uses config file: conf/frps_full.ini
+2021/09/30 02:38:33 [I] [service.go:150] plugin [port-manager] has been registered
+2021/09/30 02:38:33 [I] [service.go:150] plugin [user-manager] has been registered
+2021/09/30 02:38:33 [I] [service.go:192] cxtunnel tcp listen on 0.0.0.0:7000
+2021/09/30 02:38:33 [I] [service.go:202] cxtunnel kcp listen on udp 0.0.0.0:7000
+2021/09/30 02:38:33 [I] [service.go:276] nat hole udp service listen on 0.0.0.0:7001
+2021/09/30 02:38:33 [I] [service.go:291] Dashboard listen on 0.0.0.0:7500
+2021/09/30 02:38:33 [I] [root.go:209] cxtunnel started successfully
+2021/09/30 02:46:21 [I] [root.go:200] cxtunnel uses config file: conf/frps_full.ini
+2021/09/30 02:46:21 [I] [service.go:150] plugin [port-manager] has been registered
+2021/09/30 02:46:21 [I] [service.go:150] plugin [user-manager] has been registered
+2021/09/30 02:46:21 [I] [service.go:192] cxtunnel tcp listen on 0.0.0.0:7000
+2021/09/30 02:46:21 [I] [service.go:202] cxtunnel kcp listen on udp 0.0.0.0:7000
+2021/09/30 02:46:21 [I] [service.go:276] nat hole udp service listen on 0.0.0.0:7001
+2021/09/30 02:46:21 [I] [service.go:291] Dashboard listen on 0.0.0.0:7500
+2021/09/30 02:46:21 [I] [root.go:209] cxtunnel started successfully
+2021/09/30 02:46:27 [I] [dashboard_api.go:70] Http request: [/api/serverinfo]
+2021/09/30 02:46:27 [I] [dashboard_api.go:63] Http response [/api/serverinfo]: code [200]
+2021/09/30 02:46:31 [I] [dashboard_api.go:185] Http request: [/api/proxy/tcp]
+2021/09/30 02:46:31 [I] [dashboard_api.go:179] Http response [/api/proxy/tcp]: code [200]
+2021/09/30 02:46:32 [I] [dashboard_api.go:185] Http request: [/api/proxy/udp]
+2021/09/30 02:46:32 [I] [dashboard_api.go:179] Http response [/api/proxy/udp]: code [200]
+2021/09/30 02:46:32 [I] [dashboard_api.go:70] Http request: [/api/serverinfo]
+2021/09/30 02:46:32 [I] [dashboard_api.go:63] Http response [/api/serverinfo]: code [200]
+2021/09/30 02:46:33 [I] [dashboard_api.go:70] Http request: [/api/serverinfo]
+2021/09/30 02:46:33 [I] [dashboard_api.go:63] Http response [/api/serverinfo]: code [200]
+2021/09/30 02:46:33 [I] [dashboard_api.go:185] Http request: [/api/proxy/sudp]
+2021/09/30 02:46:33 [I] [dashboard_api.go:179] Http response [/api/proxy/sudp]: code [200]
+2021/09/30 02:46:35 [I] [dashboard_api.go:70] Http request: [/api/serverinfo]
+2021/09/30 02:46:35 [I] [dashboard_api.go:63] Http response [/api/serverinfo]: code [200]
+2021/09/30 02:47:12 [I] [dashboard_api.go:185] Http request: [/api/proxy/tcp]
+2021/09/30 02:47:12 [I] [dashboard_api.go:179] Http response [/api/proxy/tcp]: code [200]

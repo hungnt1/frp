@@ -33,7 +33,7 @@ func init() {
 
 var reloadCmd = &cobra.Command{
 	Use:   "reload",
-	Short: "Hot-Reload frpc configuration",
+	Short: "Hot-Reload cxtunnelc configuration",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		cfg, _, _, err := config.ParseClientConfig(cfgFile)
 		if err != nil {
@@ -43,7 +43,7 @@ var reloadCmd = &cobra.Command{
 
 		err = reload(cfg)
 		if err != nil {
-			fmt.Printf("frpc reload error: %v\n", err)
+			fmt.Printf("cxtunnelc reload error: %v\n", err)
 			os.Exit(1)
 		}
 		fmt.Printf("reload success\n")

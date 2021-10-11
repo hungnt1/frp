@@ -77,8 +77,8 @@ var (
 )
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "./frpc.ini", "config file of frpc")
-	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "version of frpc")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "./cxtunnelc.ini", "config file of cxtunnelc")
+	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "version of cxtunnelc")
 
 	kcpDoneCh = make(chan struct{})
 }
@@ -92,12 +92,12 @@ func RegisterCommonFlags(cmd *cobra.Command) {
 	cmd.PersistentFlags().StringVarP(&logFile, "log_file", "", "console", "console or file path")
 	cmd.PersistentFlags().IntVarP(&logMaxDays, "log_max_days", "", 3, "log file reversed days")
 	cmd.PersistentFlags().BoolVarP(&disableLogColor, "disable_log_color", "", false, "disable log color in console")
-	cmd.PersistentFlags().BoolVarP(&tlsEnable, "tls_enable", "", false, "enable frpc tls")
+	cmd.PersistentFlags().BoolVarP(&tlsEnable, "tls_enable", "", false, "enable cxtunnelc tls")
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "frpc",
-	Short: "frpc is the client of frp (https://github.com/fatedier/frp)",
+	Use:   "cxtunnelc",
+	Short: "cxtunnelc is the client of cxtunnel ( cxview.ai )",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if showVersion {
 			fmt.Println(version.Full())
@@ -188,7 +188,7 @@ func startService(
 		if !strings.Contains(s, ":") {
 			s += ":53"
 		}
-		// Change default dns server for frpc
+		// Change default dns server for cxtunnelc
 		net.DefaultResolver = &net.Resolver{
 			PreferGo: true,
 			Dial: func(ctx context.Context, network, address string) (net.Conn, error) {

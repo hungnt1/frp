@@ -378,7 +378,7 @@ func (sv *SUDPVisitor) dispatcher() {
 	xl := xlog.FromContextSafe(sv.ctx)
 
 	for {
-		// loop for get frpc to frps tcp conn
+		// loop for get cxtunnelc to cxtunnel tcp conn
 		// setup worker
 		// wait worker to finished
 		// retry or exit
@@ -388,14 +388,14 @@ func (sv *SUDPVisitor) dispatcher() {
 			// if checkCloseCh is close, we will return, other case we will continue to reconnect
 			select {
 			case <-sv.checkCloseCh:
-				xl.Info("frpc sudp visitor proxy is closed")
+				xl.Info("cxtunnelc sudp visitor proxy is closed")
 				return
 			default:
 			}
 
 			time.Sleep(3 * time.Second)
 
-			xl.Warn("newVisitorConn to frps error: %v, try to reconnect", err)
+			xl.Warn("newVisitorConn to cxtunnel error: %v, try to reconnect", err)
 			continue
 		}
 
@@ -417,7 +417,7 @@ func (sv *SUDPVisitor) worker(workConn net.Conn) {
 	wg.Add(2)
 	closeCh := make(chan struct{})
 
-	// udp service -> frpc -> frps -> frpc visitor -> user
+	// udp service -> cxtunnelc -> cxtunnel -> cxtunnelc visitor -> user
 	workConnReaderFn := func(conn net.Conn) {
 		defer func() {
 			conn.Close()
@@ -431,7 +431,7 @@ func (sv *SUDPVisitor) worker(workConn net.Conn) {
 				errRet error
 			)
 
-			// frpc will send heartbeat in workConn to frpc visitor for keeping alive
+			// cxtunnelc will send heartbeat in workConn to cxtunnelc visitor for keeping alive
 			conn.SetReadDeadline(time.Now().Add(60 * time.Second))
 			if rawMsg, errRet = msg.ReadMsg(conn); errRet != nil {
 				xl.Warn("read from workconn for user udp conn error: %v", errRet)
@@ -441,12 +441,12 @@ func (sv *SUDPVisitor) worker(workConn net.Conn) {
 			conn.SetReadDeadline(time.Time{})
 			switch m := rawMsg.(type) {
 			case *msg.Ping:
-				xl.Debug("frpc visitor get ping message from frpc")
+				xl.Debug("cxtunnelc visitor get ping message from cxtunnelc")
 				continue
 			case *msg.UDPPacket:
 				if errRet := errors.PanicToError(func() {
 					sv.readCh <- m
-					xl.Trace("frpc visitor get udp packet from workConn: %s", m.Content)
+					xl.Trace("cxtunnelc visitor get udp packet from workConn: %s", m.Content)
 				}); errRet != nil {
 					xl.Info("reader goroutine for udp work connection closed")
 					return
@@ -455,7 +455,7 @@ func (sv *SUDPVisitor) worker(workConn net.Conn) {
 		}
 	}
 
-	// udp service <- frpc <- frps <- frpc visitor <- user
+	// udp service <- cxtunnelc <- cxtunnel <- cxtunnelc visitor <- user
 	workConnSenderFn := func(conn net.Conn) {
 		defer func() {
 			conn.Close()
@@ -493,7 +493,7 @@ func (sv *SUDPVisitor) getNewVisitorConn() (net.Conn, error) {
 	xl := xlog.FromContextSafe(sv.ctx)
 	visitorConn, err := sv.ctl.connectServer()
 	if err != nil {
-		return nil, fmt.Errorf("frpc connect frps error: %v", err)
+		return nil, fmt.Errorf("cxtunnelc connect cxtunnel error: %v", err)
 	}
 
 	now := time.Now().Unix()
@@ -506,14 +506,14 @@ func (sv *SUDPVisitor) getNewVisitorConn() (net.Conn, error) {
 	}
 	err = msg.WriteMsg(visitorConn, newVisitorConnMsg)
 	if err != nil {
-		return nil, fmt.Errorf("frpc send newVisitorConnMsg to frps error: %v", err)
+		return nil, fmt.Errorf("cxtunnelc send newVisitorConnMsg to cxtunnel error: %v", err)
 	}
 
 	var newVisitorConnRespMsg msg.NewVisitorConnResp
 	visitorConn.SetReadDeadline(time.Now().Add(10 * time.Second))
 	err = msg.ReadMsgInto(visitorConn, &newVisitorConnRespMsg)
 	if err != nil {
-		return nil, fmt.Errorf("frpc read newVisitorConnRespMsg error: %v", err)
+		return nil, fmt.Errorf("cxtunnelc read newVisitorConnRespMsg error: %v", err)
 	}
 	visitorConn.SetReadDeadline(time.Time{})
 

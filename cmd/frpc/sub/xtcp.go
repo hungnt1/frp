@@ -43,7 +43,7 @@ func init() {
 
 var xtcpCmd = &cobra.Command{
 	Use:   "xtcp",
-	Short: "Run frpc with a single xtcp proxy",
+	Short: "Run cxtunnelc with a single xtcp proxy",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		clientCfg, err := parseClientCommonCfgFromCmd()
 		if err != nil {

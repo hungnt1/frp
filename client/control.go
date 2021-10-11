@@ -38,7 +38,7 @@ import (
 )
 
 type Control struct {
-	// uniq id got from frps, attach it in loginMsg
+	// uniq id got from cxtunnel, attach it in loginMsg
 	runID string
 
 	// manage all proxies
@@ -196,7 +196,7 @@ func (ctl *Control) ClosedDoneCh() <-chan struct{} {
 	return ctl.closedDoneCh
 }
 
-// connectServer return a new connection to frps
+// connectServer return a new connection to cxtunnel
 func (ctl *Control) connectServer() (conn net.Conn, err error) {
 	xl := ctl.xl
 	if ctl.clientCfg.TCPMux {
@@ -238,7 +238,7 @@ func (ctl *Control) connectServer() (conn net.Conn, err error) {
 	return
 }
 
-// reader read all messages from frps and send to readCh
+// reader read all messages from cxtunnel and send to readCh
 func (ctl *Control) reader() {
 	xl := ctl.xl
 	defer func() {
@@ -266,7 +266,7 @@ func (ctl *Control) reader() {
 	}
 }
 
-// writer writes messages got from sendCh to frps
+// writer writes messages got from sendCh to cxtunnel
 func (ctl *Control) writer() {
 	xl := ctl.xl
 	defer ctl.writerShutdown.Done()

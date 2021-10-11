@@ -32,7 +32,7 @@ var _ = Describe("[Feature: Chaos]", func() {
 		remote_port = %d
 		`, serverPort, f.PortByName(framework.TCPEchoServerPort), remotePort))
 
-		// 1. start frps and frpc, expect request success
+		// 1. start frps and cxtunnelc, expect request success
 		ps, _, err := f.RunFrps("-c", serverConfigPath)
 		framework.ExpectNoError(err)
 
@@ -51,12 +51,12 @@ var _ = Describe("[Feature: Chaos]", func() {
 		time.Sleep(2 * time.Second)
 		framework.NewRequestExpect(f).Port(remotePort).Ensure()
 
-		// 4. stop frpc, expect request failed
+		// 4. stop cxtunnelc, expect request failed
 		pc.Stop()
 		time.Sleep(200 * time.Millisecond)
 		framework.NewRequestExpect(f).Port(remotePort).ExpectError(true).Ensure()
 
-		// 5. restart frpc, expect request success
+		// 5. restart cxtunnelc, expect request success
 		_, _, err = f.RunFrpc("-c", clientConfigPath)
 		framework.ExpectNoError(err)
 		time.Sleep(time.Second)

@@ -638,7 +638,7 @@ func (pxy *SUDPProxy) InWorkConn(conn net.Conn, m *msg.StartWorkConn) {
 		close(sendCh)
 	}
 
-	// udp service <- frpc <- frps <- frpc visitor <- user
+	// udp service <- cxtunnelc <- cxtunnel <- cxtunnelc visitor <- user
 	workConnReaderFn := func(conn net.Conn, readCh chan *msg.UDPPacket) {
 		defer closeFn()
 
@@ -646,7 +646,7 @@ func (pxy *SUDPProxy) InWorkConn(conn net.Conn, m *msg.StartWorkConn) {
 			// first to check sudp proxy is closed or not
 			select {
 			case <-pxy.closeCh:
-				xl.Trace("frpc sudp proxy is closed")
+				xl.Trace("cxtunnelc sudp proxy is closed")
 				return
 			default:
 			}
@@ -666,7 +666,7 @@ func (pxy *SUDPProxy) InWorkConn(conn net.Conn, m *msg.StartWorkConn) {
 		}
 	}
 
-	// udp service -> frpc -> frps -> frpc visitor -> user
+	// udp service -> cxtunnelc -> cxtunnel -> cxtunnelc visitor -> user
 	workConnSenderFn := func(conn net.Conn, sendCh chan msg.Message) {
 		defer func() {
 			closeFn()
@@ -677,10 +677,10 @@ func (pxy *SUDPProxy) InWorkConn(conn net.Conn, m *msg.StartWorkConn) {
 		for rawMsg := range sendCh {
 			switch m := rawMsg.(type) {
 			case *msg.UDPPacket:
-				xl.Trace("frpc send udp package to frpc visitor, [udp local: %v, remote: %v], [tcp work conn local: %v, remote: %v]",
+				xl.Trace("cxtunnelc send udp package to cxtunnelc visitor, [udp local: %v, remote: %v], [tcp work conn local: %v, remote: %v]",
 					m.LocalAddr.String(), m.RemoteAddr.String(), conn.LocalAddr().String(), conn.RemoteAddr().String())
 			case *msg.Ping:
-				xl.Trace("frpc send ping message to frpc visitor")
+				xl.Trace("cxtunnelc send ping message to cxtunnelc visitor")
 			}
 
 			if errRet = msg.WriteMsg(conn, rawMsg); errRet != nil {
@@ -708,7 +708,7 @@ func (pxy *SUDPProxy) InWorkConn(conn net.Conn, m *msg.StartWorkConn) {
 					return
 				}
 			case <-pxy.closeCh:
-				xl.Trace("frpc sudp proxy is closed")
+				xl.Trace("cxtunnelc sudp proxy is closed")
 				return
 			}
 		}

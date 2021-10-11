@@ -65,8 +65,8 @@ var (
 )
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file of frps")
-	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "version of frps")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file of cxtunnel")
+	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "version of cxtunnel")
 
 	rootCmd.PersistentFlags().StringVarP(&bindAddr, "bind_addr", "", "0.0.0.0", "bind address")
 	rootCmd.PersistentFlags().IntVarP(&bindPort, "bind_port", "p", 7000, "bind port")
@@ -90,12 +90,12 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&subDomainHost, "subdomain_host", "", "", "subdomain host")
 	rootCmd.PersistentFlags().StringVarP(&allowPorts, "allow_ports", "", "", "allow ports")
 	rootCmd.PersistentFlags().Int64VarP(&maxPortsPerClient, "max_ports_per_client", "", 0, "max ports per client")
-	rootCmd.PersistentFlags().BoolVarP(&tlsOnly, "tls_only", "", false, "frps tls only")
+	rootCmd.PersistentFlags().BoolVarP(&tlsOnly, "tls_only", "", false, "cxtunnel tls only")
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "frps",
-	Short: "frps is the server of frp (https://github.com/fatedier/frp)",
+	Use:   "cxtunnel",
+	Short: "cxtunnel is the server of tunnel ( cxview.ai )",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if showVersion {
 			fmt.Println(version.Full())
@@ -197,16 +197,16 @@ func runServer(cfg config.ServerCommonConf) (err error) {
 	log.InitLog(cfg.LogWay, cfg.LogFile, cfg.LogLevel, cfg.LogMaxDays, cfg.DisableLogColor)
 
 	if cfgFile != "" {
-		log.Info("frps uses config file: %s", cfgFile)
+		log.Info("cxtunnel uses config file: %s", cfgFile)
 	} else {
-		log.Info("frps uses command line arguments for config")
+		log.Info("cxtunnel uses command line arguments for config")
 	}
 
 	svr, err := server.NewService(cfg)
 	if err != nil {
 		return err
 	}
-	log.Info("frps started successfully")
+	log.Info("cxtunnel started successfully")
 	svr.Run()
 	return
 }

@@ -49,14 +49,14 @@ func (svr *Service) apiReload(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		res.Code = 400
 		res.Msg = err.Error()
-		log.Warn("reload frpc proxy config error: %s", res.Msg)
+		log.Warn("reload cxtunnelc proxy config error: %s", res.Msg)
 		return
 	}
 
 	if err = svr.ReloadConf(pxyCfgs, visitorCfgs); err != nil {
 		res.Code = 500
 		res.Msg = err.Error()
-		log.Warn("reload frpc proxy config error: %s", res.Msg)
+		log.Warn("reload cxtunnelc proxy config error: %s", res.Msg)
 		return
 	}
 	log.Info("success reload conf")
@@ -212,7 +212,7 @@ func (svr *Service) apiGetConfig(w http.ResponseWriter, r *http.Request) {
 
 	if svr.cfgFile == "" {
 		res.Code = 400
-		res.Msg = "frpc has no config file path"
+		res.Msg = "cxtunnelc has no config file path"
 		log.Warn("%s", res.Msg)
 		return
 	}
@@ -221,7 +221,7 @@ func (svr *Service) apiGetConfig(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		res.Code = 400
 		res.Msg = err.Error()
-		log.Warn("load frpc config file error: %s", res.Msg)
+		log.Warn("load cxtunnelc config file error: %s", res.Msg)
 		return
 	}
 
@@ -272,7 +272,7 @@ func (svr *Service) apiPutConfig(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		res.Code = 400
 		res.Msg = err.Error()
-		log.Warn("load frpc config file error: %s", res.Msg)
+		log.Warn("load cxtunnelc config file error: %s", res.Msg)
 		return
 	}
 	content := string(b)
@@ -310,7 +310,7 @@ func (svr *Service) apiPutConfig(w http.ResponseWriter, r *http.Request) {
 	err = ioutil.WriteFile(svr.cfgFile, []byte(content), 0644)
 	if err != nil {
 		res.Code = 500
-		res.Msg = fmt.Sprintf("write content to frpc config file error: %v", err)
+		res.Msg = fmt.Sprintf("write content to cxtunnelc config file error: %v", err)
 		log.Warn("%s", res.Msg)
 		return
 	}

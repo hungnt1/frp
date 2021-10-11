@@ -34,7 +34,7 @@ var (
 		server_addr = 0.0.0.9
 		server_port = 7009
 		http_proxy = http://user:passwd@192.168.1.128:8080
-		log_file = ./frpc.log9
+		log_file = ./cxtunnelc.log9
 		log_way = file
 		log_level = info9
 		log_max_days = 39
@@ -262,7 +262,7 @@ func Test_LoadClientCommonConf(t *testing.T) {
 		ServerAddr:        "0.0.0.9",
 		ServerPort:        7009,
 		HTTPProxy:         "http://user:passwd@192.168.1.128:8080",
-		LogFile:           "./frpc.log9",
+		LogFile:           "./cxtunnelc.log9",
 		LogWay:            "file",
 		LogLevel:          "info9",
 		LogMaxDays:        39,

@@ -145,7 +145,7 @@ func (svr *Service) keepControllerWorking() {
 	maxDelayTime := 20 * time.Second
 	delayTime := time.Second
 
-	// if frpc reconnect frps, we need to limit retry times in 1min
+	// if cxtunnelc reconnect frps, we need to limit retry times in 1min
 	// current retry logic is sleep 0s, 0s, 0s, 1s, 2s, 4s, 8s, ...
 	// when exceed 1min, we will reset delay and counts
 	cutoffTime := time.Now().Add(time.Minute)

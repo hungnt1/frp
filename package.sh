@@ -32,7 +32,7 @@ for os in $os_all; do
                 continue
             fi
             mkdir ${frp_path}
-            mv ./frpc_${os}_${arch}.exe ${frp_path}/frpc.exe
+            mv ./frpc_${os}_${arch}.exe ${frp_path}/cxtunnelc.exe
             mv ./frps_${os}_${arch}.exe ${frp_path}/frps.exe
         else
             if [ ! -f "./frpc_${os}_${arch}" ]; then
@@ -42,7 +42,7 @@ for os in $os_all; do
                 continue
             fi
             mkdir ${frp_path}
-            mv ./frpc_${os}_${arch} ${frp_path}/frpc
+            mv ./frpc_${os}_${arch} ${frp_path}/cxtunnelc
             mv ./frps_${os}_${arch} ${frp_path}/frps
         fi  
         cp ../LICENSE ${frp_path}

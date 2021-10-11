@@ -7,8 +7,8 @@ Type=simple
 User=nobody
 Restart=on-failure
 RestartSec=5s
-ExecStart=/usr/bin/frpc -c /etc/frp/frpc.ini
-ExecReload=/usr/bin/frpc reload -c /etc/frp/frpc.ini
+ExecStart=/usr/bin/cxtunnelc -c /etc/frp/cxtunnelc.ini
+ExecReload=/usr/bin/cxtunnelc reload -c /etc/frp/cxtunnelc.ini
 LimitNOFILE=1048576
 
 [Install]

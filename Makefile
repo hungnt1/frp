@@ -4,16 +4,16 @@ LDFLAGS := -s -w
 
 all: fmt build
 
-build: frps frpc
+build: frps cxtunnelc
 
 # compile assets into binary file
 file:
 	rm -rf ./assets/frps/static/*
-	rm -rf ./assets/frpc/static/*
+	rm -rf ./assets/cxtunnelc/static/*
 	cp -rf ./web/frps/dist/* ./assets/frps/static
-	cp -rf ./web/frpc/dist/* ./assets/frpc/static
+	cp -rf ./web/cxtunnelc/dist/* ./assets/cxtunnelc/static
 	rm -rf ./assets/frps/statik
-	rm -rf ./assets/frpc/statik
+	rm -rf ./assets/cxtunnelc/statik
 	go generate ./assets/...
 
 fmt:
@@ -22,8 +22,8 @@ fmt:
 frps:
 	env CGO_ENABLED=0 go build -trimpath -ldflags "$(LDFLAGS)" -o bin/frps ./cmd/frps
 
-frpc:
-	env CGO_ENABLED=0 go build -trimpath -ldflags "$(LDFLAGS)" -o bin/frpc ./cmd/frpc
+cxtunnelc:
+	env CGO_ENABLED=0 go build -trimpath -ldflags "$(LDFLAGS)" -o bin/cxtunnelc ./cmd/cxtunnelc
 
 test: gotest
 
@@ -43,5 +43,5 @@ e2e-trace:
 alltest: gotest e2e
 	
 clean:
-	rm -f ./bin/frpc
+	rm -f ./bin/cxtunnelc
 	rm -f ./bin/frps

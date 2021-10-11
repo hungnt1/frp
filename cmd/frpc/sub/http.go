@@ -45,7 +45,7 @@ func init() {
 
 var httpCmd = &cobra.Command{
 	Use:   "http",
-	Short: "Run frpc with a single http proxy",
+	Short: "Run cxtunnelc with a single http proxy",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		clientCfg, err := parseClientCommonCfgFromCmd()
 		if err != nil {

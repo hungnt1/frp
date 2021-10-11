@@ -17,4 +17,4 @@ if [ x${LOG_LEVEL} != x"" ]; then
     logLevel=${LOG_LEVEL}
 fi
 
-ginkgo -nodes=8 -slowSpecThreshold=20 ${ROOT}/test/e2e -- -frpc-path=${ROOT}/bin/frpc -frps-path=${ROOT}/bin/frps -log-level=${logLevel} -debug=${debug}
+ginkgo -nodes=8 -slowSpecThreshold=20 ${ROOT}/test/e2e -- -cxtunnelc-path=${ROOT}/bin/cxtunnelc -frps-path=${ROOT}/bin/frps -log-level=${logLevel} -debug=${debug}

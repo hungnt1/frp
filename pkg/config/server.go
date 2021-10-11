@@ -105,7 +105,7 @@ type ServerCommonConf struct {
 	// true. By default, this value is false.
 	DisableLogColor bool `ini:"disable_log_color" json:"disable_log_color"`
 	// DetailedErrorsToClient defines whether to send the specific error (with
-	// debug info) to frpc. By default, this value is true.
+	// debug info) to cxtunnelc. By default, this value is true.
 	DetailedErrorsToClient bool `ini:"detailed_errors_to_client" json:"detailed_errors_to_client"`
 
 	// SubDomainHost specifies the domain that will be attached to sub-domains

@@ -23,7 +23,7 @@ import (
 
 type BaseConfig struct {
 	// AuthenticationMethod specifies what authentication method to use to
-	// authenticate frpc with frps. If "token" is specified - token will be
+	// authenticate cxtunnelc with frps. If "token" is specified - token will be
 	// read into login message. If "oidc" is specified - OIDC (Open ID Connect)
 	// token will be issued using OIDC settings. By default, this value is "token".
 	AuthenticationMethod string `ini:"authentication_method" json:"authentication_method"`

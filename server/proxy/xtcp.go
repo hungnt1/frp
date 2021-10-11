@@ -35,7 +35,7 @@ func (pxy *XTCPProxy) Run() (remoteAddr string, err error) {
 
 	if pxy.rc.NatHoleController == nil {
 		xl.Error("udp port for xtcp is not specified.")
-		err = fmt.Errorf("xtcp is not supported in frps")
+		err = fmt.Errorf("xtcp is not supported in cxtunnel")
 		return
 	}
 	sidCh := pxy.rc.NatHoleController.ListenClient(pxy.GetName(), pxy.cfg.Sk)

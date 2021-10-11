@@ -40,7 +40,7 @@ frp also has a P2P connect mode.
         * [OIDC Authentication](#oidc-authentication)
     * [Encryption and Compression](#encryption-and-compression)
         * [TLS](#tls)
-    * [Hot-Reloading frpc configuration](#hot-reloading-frpc-configuration)
+    * [Hot-Reloading cxtunnelc configuration](#hot-reloading-cxtunnelc-configuration)
     * [Get proxy status from client](#get-proxy-status-from-client)
     * [Only allowing certain ports on the server](#only-allowing-certain-ports-on-the-server)
     * [Port Reuse](#port-reuse)
@@ -89,7 +89,7 @@ Firstly, download the latest programs from [Release](https://github.com/fatedier
 
 Put `frps` and `frps.ini` onto your server A with public IP.
 
-Put `frpc` and `frpc.ini` onto your server B in LAN (that can't be connected from public Internet).
+Put `cxtunnelc` and `cxtunnelc.ini` onto your server B in LAN (that can't be connected from public Internet).
 
 ### Access your computer in LAN by SSH
 
@@ -105,10 +105,10 @@ Put `frpc` and `frpc.ini` onto your server B in LAN (that can't be connected fro
 
   `./frps -c ./frps.ini`
 
-3. On server B, modify `frpc.ini` to put in your `frps` server public IP as `server_addr` field:
+3. On server B, modify `cxtunnelc.ini` to put in your `frps` server public IP as `server_addr` field:
 
   ```ini
-  # frpc.ini
+  # cxtunnelc.ini
   [common]
   server_addr = x.x.x.x
   server_port = 7000
@@ -122,9 +122,9 @@ Put `frpc` and `frpc.ini` onto your server B in LAN (that can't be connected fro
 
 Note that `local_port` (listened on client) and `remote_port` (exposed on server) are for traffic goes in/out the frp system, whereas `server_port` is used between frps.
 
-4. Start `frpc` on server B:
+4. Start `cxtunnelc` on server B:
 
-  `./frpc -c ./frpc.ini`
+  `./cxtunnelc -c ./cxtunnelc.ini`
 
 5. From another machine, SSH to server B like this (assuming that username is `test`):
 
@@ -149,10 +149,10 @@ However, we can expose an HTTP(S) service using frp.
 
   `./frps -c ./frps.ini`
 
-3. Modify `frpc.ini` and set `server_addr` to the IP address of the remote frps server. The `local_port` is the port of your web service:
+3. Modify `cxtunnelc.ini` and set `server_addr` to the IP address of the remote frps server. The `local_port` is the port of your web service:
 
   ```ini
-  # frpc.ini
+  # cxtunnelc.ini
   [common]
   server_addr = x.x.x.x
   server_port = 7000
@@ -163,9 +163,9 @@ However, we can expose an HTTP(S) service using frp.
   custom_domains = www.example.com
   ```
 
-4. Start `frpc`:
+4. Start `cxtunnelc`:
 
-  `./frpc -c ./frpc.ini`
+  `./cxtunnelc -c ./cxtunnelc.ini`
 
 5. Resolve A record of `www.example.com` to the public IP of the remote frps server or CNAME record to your origin domain.
 
@@ -185,10 +185,10 @@ However, we can expose an HTTP(S) service using frp.
 
   `./frps -c ./frps.ini`
 
-3. Modify `frpc.ini` and set `server_addr` to the IP address of the remote frps server, forward DNS query request to Google Public DNS server `8.8.8.8:53`:
+3. Modify `cxtunnelc.ini` and set `server_addr` to the IP address of the remote frps server, forward DNS query request to Google Public DNS server `8.8.8.8:53`:
 
   ```ini
-  # frpc.ini
+  # cxtunnelc.ini
   [common]
   server_addr = x.x.x.x
   server_port = 7000
@@ -200,9 +200,9 @@ However, we can expose an HTTP(S) service using frp.
   remote_port = 6000
   ```
 
-4. Start frpc:
+4. Start cxtunnelc:
 
-  `./frpc -c ./frpc.ini`
+  `./cxtunnelc -c ./cxtunnelc.ini`
 
 5. Test DNS resolution using `dig` command:
 
@@ -214,10 +214,10 @@ Expose a Unix domain socket (e.g. the Docker daemon socket) as TCP.
 
 Configure `frps` same as above.
 
-1. Start `frpc` with configuration:
+1. Start `cxtunnelc` with configuration:
 
   ```ini
-  # frpc.ini
+  # cxtunnelc.ini
   [common]
   server_addr = x.x.x.x
   server_port = 7000
@@ -239,10 +239,10 @@ Browser your files stored in the LAN, from public Internet.
 
 Configure `frps` same as above.
 
-1. Start `frpc` with configuration:
+1. Start `cxtunnelc` with configuration:
 
   ```ini
-  # frpc.ini
+  # cxtunnelc.ini
   [common]
   server_addr = x.x.x.x
   server_port = 7000
@@ -257,16 +257,16 @@ Configure `frps` same as above.
   plugin_http_passwd = abc
   ```
 
-2. Visit `http://x.x.x.x:6000/static/` from your browser and specify correct user and password to view files in `/tmp/files` on the `frpc` machine.
+2. Visit `http://x.x.x.x:6000/static/` from your browser and specify correct user and password to view files in `/tmp/files` on the `cxtunnelc` machine.
 
 ### Enable HTTPS for local HTTP(S) service
 
 You may substitute `https2https` for the plugin, and point the `plugin_local_addr` to a HTTPS endpoint.
 
-1. Start `frpc` with configuration:
+1. Start `cxtunnelc` with configuration:
 
   ```ini
-  # frpc.ini
+  # cxtunnelc.ini
   [common]
   server_addr = x.x.x.x
   server_port = 7000
@@ -291,10 +291,10 @@ Some services will be at risk if exposed directly to the public network. With **
 
 Configure `frps` same as above.
 
-1. Start `frpc` on machine B with the following config. This example is for exposing the SSH service (port 22), and note the `sk` field for the preshared key, and that the `remote_port` field is removed here:
+1. Start `cxtunnelc` on machine B with the following config. This example is for exposing the SSH service (port 22), and note the `sk` field for the preshared key, and that the `remote_port` field is removed here:
 
   ```ini
-  # frpc.ini
+  # cxtunnelc.ini
   [common]
   server_addr = x.x.x.x
   server_port = 7000
@@ -306,10 +306,10 @@ Configure `frps` same as above.
   local_port = 22
   ```
 
-2. Start another `frpc` (typically on another machine C) with the following config to access the SSH service with a security key (`sk` field):
+2. Start another `cxtunnelc` (typically on another machine C) with the following config to access the SSH service with a security key (`sk` field):
 
   ```ini
-  # frpc.ini
+  # cxtunnelc.ini
   [common]
   server_addr = x.x.x.x
   server_port = 7000
@@ -340,10 +340,10 @@ Note it can't penetrate all types of NAT devices. You might want to fallback to 
   bind_udp_port = 7001
   ```
 
-2. Start `frpc` on machine B, expose the SSH port. Note that `remote_port` field is removed:
+2. Start `cxtunnelc` on machine B, expose the SSH port. Note that `remote_port` field is removed:
 
   ```ini
-  # frpc.ini
+  # cxtunnelc.ini
   [common]
   server_addr = x.x.x.x
   server_port = 7000
@@ -355,10 +355,10 @@ Note it can't penetrate all types of NAT devices. You might want to fallback to 
   local_port = 22
   ```
 
-3. Start another `frpc` (typically on another machine C) with the config to connect to SSH using P2P mode:
+3. Start another `cxtunnelc` (typically on another machine C) with the config to connect to SSH using P2P mode:
 
   ```ini
-  # frpc.ini
+  # cxtunnelc.ini
   [common]
   server_addr = x.x.x.x
   server_port = 7000
@@ -384,14 +384,14 @@ Read the full example configuration files to find out even more features not des
 
 [Full configuration file for frps (Server)](./conf/frps_full.ini)
 
-[Full configuration file for frpc (Client)](./conf/frpc_full.ini)
+[Full configuration file for cxtunnelc (Client)](./conf/frpc_full.ini)
 
 ### Using Environment Variables
 
 Environment variables can be referenced in the configuration file, using Go's standard format:
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [common]
 server_addr = {{ .Envs.FRP_SERVER_ADDR }}
 server_port = 7000
@@ -403,22 +403,22 @@ local_port = 22
 remote_port = {{ .Envs.FRP_SSH_REMOTE_PORT }}
 ```
 
-With the config above, variables can be passed into `frpc` program like this:
+With the config above, variables can be passed into `cxtunnelc` program like this:
 
 ```
 export FRP_SERVER_ADDR="x.x.x.x"
 export FRP_SSH_REMOTE_PORT="6000"
-./frpc -c ./frpc.ini
+./cxtunnelc -c ./cxtunnelc.ini
 ```
 
-`frpc` will render configuration file template using OS environment variables. Remember to prefix your reference with `.Envs`.
+`cxtunnelc` will render configuration file template using OS environment variables. Remember to prefix your reference with `.Envs`.
 
 ### Split Configures Into Different Files
 
 You can split multiple proxy configs into different files and include them in the main file.
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [common]
 server_addr = x.x.x.x
 server_port = 7000
@@ -454,7 +454,7 @@ Then visit `http://[server_addr]:7500` to see the dashboard, with username and p
 
 ### Admin UI
 
-The Admin UI helps you check and manage frpc's configuration.
+The Admin UI helps you check and manage cxtunnelc's configuration.
 
 Configure an address for admin UI to enable this feature:
 
@@ -482,27 +482,27 @@ Enable dashboard first, then configure `enable_prometheus = true` in `frps.ini`.
 
 ### Authenticating the Client
 
-There are 2 authentication methods to authenticate frpc with frps. 
+There are 2 authentication methods to authenticate cxtunnelc with frps. 
 
-You can decide which one to use by configuring `authentication_method` under `[common]` in `frpc.ini` and `frps.ini`.
+You can decide which one to use by configuring `authentication_method` under `[common]` in `cxtunnelc.ini` and `frps.ini`.
 
-Configuring `authenticate_heartbeats = true` under `[common]` will use the configured authentication method to add and validate authentication on every heartbeat between frpc and frps.
+Configuring `authenticate_heartbeats = true` under `[common]` will use the configured authentication method to add and validate authentication on every heartbeat between cxtunnelc and frps.
 
-Configuring `authenticate_new_work_conns = true` under `[common]` will do the same for every new work connection between frpc and frps.
+Configuring `authenticate_new_work_conns = true` under `[common]` will do the same for every new work connection between cxtunnelc and frps.
 
 #### Token Authentication
 
-When specifying `authentication_method = token` under `[common]` in `frpc.ini` and `frps.ini` - token based authentication will be used.
+When specifying `authentication_method = token` under `[common]` in `cxtunnelc.ini` and `frps.ini` - token based authentication will be used.
 
-Make sure to specify the same `token` in the `[common]` section in `frps.ini` and `frpc.ini` for frpc to pass frps validation
+Make sure to specify the same `token` in the `[common]` section in `frps.ini` and `cxtunnelc.ini` for cxtunnelc to pass frps validation
 
 #### OIDC Authentication
 
-When specifying `authentication_method = oidc` under `[common]` in `frpc.ini` and `frps.ini` - OIDC based authentication will be used.
+When specifying `authentication_method = oidc` under `[common]` in `cxtunnelc.ini` and `frps.ini` - OIDC based authentication will be used.
 
 OIDC stands for OpenID Connect, and the flow used is called [Client Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
 
-To use this authentication type - configure `frpc.ini` and `frps.ini` as follows:
+To use this authentication type - configure `cxtunnelc.ini` and `frps.ini` as follows:
 
 ```ini
 # frps.ini
@@ -513,7 +513,7 @@ oidc_audience = https://oidc-audience.com/.default
 ```
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [common]
 authentication_method = oidc
 oidc_client_id = 98692467-37de-409a-9fac-bb2585826f18 # Replace with OIDC client ID
@@ -527,7 +527,7 @@ oidc_token_endpoint_url = https://example-oidc-endpoint.com/oauth2/v2.0/token
 The features are off by default. You can turn on encryption and/or compression:
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [ssh]
 type = tcp
 local_port = 22
@@ -538,15 +538,15 @@ use_compression = true
 
 #### TLS
 
-frp supports the TLS protocol between `frpc` and `frps` since v0.25.0.
+frp supports the TLS protocol between `cxtunnelc` and `frps` since v0.25.0.
 
 For port multiplexing, frp sends a first byte `0x17` to dial a TLS connection.
 
-Configure `tls_enable = true` in the `[common]` section to `frpc.ini` to enable this feature.
+Configure `tls_enable = true` in the `[common]` section to `cxtunnelc.ini` to enable this feature.
 
 To **enforce** `frps` to only accept TLS connections - configure `tls_only = true` in the `[common]` section in `frps.ini`. **This is optional.**
 
-**`frpc` TLS settings (under the `[common]` section):**
+**`cxtunnelc` TLS settings (under the `[common]` section):**
 ```ini
 tls_enable = true
 tls_cert_file = certificate.crt
@@ -620,7 +620,7 @@ openssl x509 -req -days 365 \
 	-out server.crt
 ```
 
-* build frpc certificates：
+* build cxtunnelc certificates：
 ```
 openssl genrsa -out client.key 2048
 openssl req -new -sha256 -key client.key \
@@ -635,26 +635,26 @@ openssl x509 -req -days 365 \
 	-out client.crt
 ```
 
-### Hot-Reloading frpc configuration
+### Hot-Reloading cxtunnelc configuration
 
 The `admin_addr` and `admin_port` fields are required for enabling HTTP API:
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [common]
 admin_addr = 127.0.0.1
 admin_port = 7400
 ```
 
-Then run command `frpc reload -c ./frpc.ini` and wait for about 10 seconds to let `frpc` create or update or remove proxies.
+Then run command `cxtunnelc reload -c ./cxtunnelc.ini` and wait for about 10 seconds to let `cxtunnelc` create or update or remove proxies.
 
 **Note that parameters in [common] section won't be modified except 'start'.**
 
-You can run command `frpc verify -c ./frpc.ini` before reloading to check if there are config errors.
+You can run command `cxtunnelc verify -c ./cxtunnelc.ini` before reloading to check if there are config errors.
 
 ### Get proxy status from client
 
-Use `frpc status -c ./frpc.ini` to get status of all proxies. The `admin_addr` and `admin_port` fields are required for enabling HTTP API.
+Use `cxtunnelc status -c ./cxtunnelc.ini` to get status of all proxies. The `admin_addr` and `admin_port` fields are required for enabling HTTP API.
 
 ### Only allowing certain ports on the server
 
@@ -679,7 +679,7 @@ We would like to try to allow multiple proxies bind a same remote port with diff
 #### For Each Proxy
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [ssh]
 type = tcp
 local_port = 22
@@ -691,12 +691,12 @@ Set `bandwidth_limit` in each proxy's configure to enable this feature. Supporte
 
 ### TCP Stream Multiplexing
 
-frp supports tcp stream multiplexing since v0.10.0 like HTTP2 Multiplexing, in which case all logic connections to the same frpc are multiplexed into the same TCP connection.
+frp supports tcp stream multiplexing since v0.10.0 like HTTP2 Multiplexing, in which case all logic connections to the same cxtunnelc are multiplexed into the same TCP connection.
 
-You can disable this feature by modify `frps.ini` and `frpc.ini`:
+You can disable this feature by modify `frps.ini` and `cxtunnelc.ini`:
 
 ```ini
-# frps.ini and frpc.ini, must be same
+# frps.ini and cxtunnelc.ini, must be same
 [common]
 tcp_mux = false
 ```
@@ -719,10 +719,10 @@ KCP mode uses UDP as the underlying transport. Using KCP in frp:
 
   The `kcp_bind_port` number can be the same number as `bind_port`, since `bind_port` field specifies a TCP port.
 
-2. Configure `frpc.ini` to use KCP to connect to frps:
+2. Configure `cxtunnelc.ini` to use KCP to connect to frps:
 
   ```ini
-  # frpc.ini
+  # cxtunnelc.ini
   [common]
   server_addr = x.x.x.x
   # Same as the 'kcp_bind_port' in frps.ini
@@ -732,7 +732,7 @@ KCP mode uses UDP as the underlying transport. Using KCP in frp:
 
 ### Connection Pooling
 
-By default, frps creates a new frpc connection to the backend service upon a user request. With connection pooling, frps keeps a certain number of pre-established connections, reducing the time needed to establish a connection.
+By default, frps creates a new cxtunnelc connection to the backend service upon a user request. With connection pooling, frps keeps a certain number of pre-established connections, reducing the time needed to establish a connection.
 
 This feature is suitable for a large number of short connections.
 
@@ -747,7 +747,7 @@ This feature is suitable for a large number of short connections.
 2. Enable and specify the number of connection pool:
 
   ```ini
-  # frpc.ini
+  # cxtunnelc.ini
   [common]
   pool_count = 1
   ```
@@ -759,7 +759,7 @@ Load balancing is supported by `group`.
 This feature is only available for types `tcp`, `http`, `tcpmux` now.
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [test1]
 type = tcp
 local_port = 8080
@@ -792,7 +792,7 @@ Add `health_check_type = tcp` or `health_check_type = http` to enable health che
 With health check type **tcp**, the service port will be pinged (TCPing):
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [test1]
 type = tcp
 local_port = 22
@@ -810,7 +810,7 @@ health_check_interval_s = 10
 With health check type **http**, an HTTP request will be sent to the service and an HTTP 2xx OK response is expected:
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [web]
 type = http
 local_ip = 127.0.0.1
@@ -818,7 +818,7 @@ local_port = 80
 custom_domains = test.example.com
 # Enable HTTP health check
 health_check_type = http
-# frpc will send a GET request to '/status'
+# cxtunnelc will send a GET request to '/status'
 # and expect an HTTP 2xx OK response
 health_check_url = /status
 health_check_timeout_s = 3
@@ -833,7 +833,7 @@ By default frp does not modify the tunneled HTTP requests at all as it's a byte-
 However, speaking of web servers and HTTP requests, your web server might rely on the `Host` HTTP header to determine the website to be accessed. frp can rewrite the `Host` header when forwarding the HTTP requests, with the `host_header_rewrite` field:
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [web]
 type = http
 local_port = 80
@@ -848,7 +848,7 @@ The HTTP request will have the the `Host` header rewritten to `Host: dev.example
 Similar to `Host`, You can override other HTTP request headers with proxy type `http`.
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [web]
 type = http
 local_port = 80
@@ -876,7 +876,7 @@ frp supports Proxy Protocol to send user's real IP to local services. It support
 Here is an example for https service:
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [web]
 type = https
 local_port = 443
@@ -892,12 +892,12 @@ You can enable Proxy Protocol support in nginx to expose user's real IP in HTTP 
 
 Anyone who can guess your tunnel URL can access your local web server unless you protect it with a password.
 
-This enforces HTTP Basic Auth on all requests with the username and password specified in frpc's configure file.
+This enforces HTTP Basic Auth on all requests with the username and password specified in cxtunnelc's configure file.
 
 It can only be enabled when proxy type is http.
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [web]
 type = http
 local_port = 80
@@ -920,7 +920,7 @@ subdomain_host = frps.com
 Resolve `*.frps.com` to the frps server's IP. This is usually called a Wildcard DNS record.
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [web]
 type = http
 local_port = 80
@@ -938,7 +938,7 @@ frp supports forwarding HTTP requests to different backend web services by url r
 `locations` specifies the prefix of URL used for routing. frps first searches for the most specific prefix location given by literal strings regardless of the listed order.
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [web01]
 type = http
 local_port = 80
@@ -962,7 +962,7 @@ The only supported TCP port multiplexing method available at the moment is `http
 
 When setting `tcpmux_httpconnect_port` to anything other than 0 in frps under `[common]`, frps will listen on this port for HTTP CONNECT requests.
 
-The host of the HTTP CONNECT request will be used to match the proxy in frps. Proxy hosts can be configured in frpc by configuring `custom_domain` and / or `subdomain` under `type = tcpmux` proxies, when `multiplexer = httpconnect`.
+The host of the HTTP CONNECT request will be used to match the proxy in frps. Proxy hosts can be configured in cxtunnelc by configuring `custom_domain` and / or `subdomain` under `type = tcpmux` proxies, when `multiplexer = httpconnect`.
 
 For example:
 
@@ -974,7 +974,7 @@ tcpmux_httpconnect_port = 1337
 ```
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [common]
 server_addr = x.x.x.x
 server_port = 7000
@@ -999,12 +999,12 @@ and the connection will be routed to `proxy1`.
 
 ### Connecting to frps via HTTP PROXY
 
-frpc can connect to frps using HTTP proxy if you set OS environment variable `HTTP_PROXY`, or if `http_proxy` is set in frpc.ini file.
+cxtunnelc can connect to frps using HTTP proxy if you set OS environment variable `HTTP_PROXY`, or if `http_proxy` is set in cxtunnelc.ini file.
 
 It only works when protocol is tcp.
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [common]
 server_addr = x.x.x.x
 server_port = 7000
@@ -1016,7 +1016,7 @@ http_proxy = http://user:pwd@192.168.1.128:8080
 Proxy with names that start with `range:` will support mapping range ports.
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [range:test_tcp]
 type = tcp
 local_ip = 127.0.0.1
@@ -1024,11 +1024,11 @@ local_port = 6000-6006,6007
 remote_port = 6000-6006,6007
 ```
 
-frpc will generate 8 proxies like `test_tcp_0`, `test_tcp_1`, ..., `test_tcp_7`.
+cxtunnelc will generate 8 proxies like `test_tcp_0`, `test_tcp_1`, ..., `test_tcp_7`.
 
 ### Client Plugins
 
-frpc only forwards requests to local TCP or UDP ports by default.
+cxtunnelc only forwards requests to local TCP or UDP ports by default.
 
 Plugins are used for providing rich features. There are built-in plugins such as `unix_domain_socket`, `http_proxy`, `socks5`, `static_file`, `http2https`, `https2http`, `https2https` and you can see [example usage](#example-usage).
 
@@ -1037,7 +1037,7 @@ Specify which plugin to use with the `plugin` parameter. Configuration parameter
 Using plugin **http_proxy**:
 
 ```ini
-# frpc.ini
+# cxtunnelc.ini
 [http_proxy]
 type = tcp
 remote_port = 6000

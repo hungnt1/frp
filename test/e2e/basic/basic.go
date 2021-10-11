@@ -79,7 +79,7 @@ var _ = Describe("[Feature: Basic]", func() {
 				for _, test := range tests {
 					clientConf += getProxyConf(test.proxyName, test.portName, test.extraConfig) + "\n"
 				}
-				// run frps and frpc
+				// run frps and cxtunnelc
 				f.RunProcesses([]string{serverConf}, []string{clientConf})
 
 				for _, test := range tests {
@@ -148,7 +148,7 @@ var _ = Describe("[Feature: Basic]", func() {
 				}
 				clientConf += getProxyConf(test.proxyName, tests[i].customDomains, test.extraConfig) + "\n"
 			}
-			// run frps and frpc
+			// run frps and cxtunnelc
 			f.RunProcesses([]string{serverConf}, []string{clientConf})
 
 			for _, test := range tests {
@@ -230,7 +230,7 @@ var _ = Describe("[Feature: Basic]", func() {
 				}
 				clientConf += getProxyConf(test.proxyName, tests[i].customDomains, test.extraConfig) + "\n"
 			}
-			// run frps and frpc
+			// run frps and cxtunnelc
 			f.RunProcesses([]string{serverConf}, []string{clientConf})
 
 			tlsConfig, err := transport.NewServerTLSConfig("", "", "")
@@ -366,7 +366,7 @@ var _ = Describe("[Feature: Basic]", func() {
 				for _, test := range tests {
 					clientVisitorConf += getProxyVisitorConf(test.proxyName, test.bindPortName, test.visitorSK, test.extraConfig) + "\n"
 				}
-				// run frps and frpc
+				// run frps and cxtunnelc
 				f.RunProcesses([]string{serverConf}, []string{clientServerConf, clientVisitorConf})
 
 				for _, test := range tests {
@@ -433,7 +433,7 @@ var _ = Describe("[Feature: Basic]", func() {
 				f.RunServer(port.GenName(test.proxyName), localServer)
 			}
 
-			// run frps and frpc
+			// run frps and cxtunnelc
 			f.RunProcesses([]string{serverConf}, []string{clientConf})
 
 			// Request without HTTP connect should get error
